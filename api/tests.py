@@ -9,11 +9,6 @@ from rest_framework import status
 
 from api.models import User
 
-@pytest.mark.django_db
-def test_my_user():
-	count_users = User.objects.all().count()
-	assert count_users == 0
-
 
 @pytest.mark.django_db
 @pytest.mark.parametrize('view_name', ['api:login'])
