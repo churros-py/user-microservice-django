@@ -13,14 +13,9 @@ class Login(TokenObtainPairView):
     serializer_class = TokenSerializer
 
 
-@api_view(["GET", "POST"])
+@api_view(["POST"])
 def user(request: Request):
-    if request.method == "GET":
-        users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
-        return Response(serializer.data)
-
-    elif request.method == "POST":
+    if request.method == "POST":
         serializer = CreateUserSerializer(data=request.data)
         if serializer.is_valid():
             user_already_exists = User.objects.filter(
@@ -34,3 +29,10 @@ def user(request: Request):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET"])
+def all_users(request: Request):
+    users = User.objects.all()
+    serializer = UserSerializer(users, many=True)
+    return Response(serializer.data)
