@@ -14,8 +14,11 @@ class Login(TokenObtainPairView):
 
 
 @api_view(["POST"])
-def user(request: Request):
-    if request.method == "POST":
+def user(request: Request) -> Response:
+    if request.method == "GET":
+        print("")
+
+    elif request.method == "POST":
         serializer = CreateUserSerializer(data=request.data)
         if serializer.is_valid():
             user_already_exists = User.objects.filter(
