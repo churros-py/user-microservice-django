@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from rest_framework import status
@@ -16,7 +17,7 @@ class Login(TokenObtainPairView):
 @api_view(["POST"])
 def user(request: Request) -> Response:
     if request.method == "GET":
-        print("")
+        ...
 
     elif request.method == "POST":
         serializer = CreateUserSerializer(data=request.data)
