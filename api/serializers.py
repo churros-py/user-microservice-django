@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
+from django.contrib.auth.models import Group
 
 from api.models import User
 
@@ -14,12 +15,28 @@ class TokenSerializer(TokenObtainPairSerializer):
         return token
 
 
-class UserSerializer(serializers.Serializer):
-    email = serializers.EmailField()
-    is_active = serializers.BooleanField()
-    first_name = serializers.CharField()
-    last_name = serializers.CharField()
-    date_joined = serializers.CharField()
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name="api:user-detail")
+
+    class Meta:
+        model = User
+        fields = [
+            "url",
+            "groups",
+            "email",
+            "first_name",
+            "last_name",
+            "date_joined",
+            "is_active",
+            "is_staff",
+            "is_superuser",
+        ]
+
+
+class GroupSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Group
+        fields = ["url", "name"]
 
 
 class CreateUserSerializer(serializers.Serializer):
